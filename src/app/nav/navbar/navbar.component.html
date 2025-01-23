@@ -1,0 +1,42 @@
+
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" [routerLink]="['formGroup']" routerLinkActive="router-link-active" >Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDark" aria-controls="navbarDark" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarDark">
+        <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" [routerLink]="'formGroup'" routerLinkActive="router-link-active">formGroup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'ngMaterial'" routerLinkActive="router-link-active">Ng Material</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'pactice'" routerLinkActive="router-link-active">Practice</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'signup'" routerLinkActive="router-link-active">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'dashboard'" routerLinkActive="router-link-active">dashboard</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" [routerLink]="'dash'" routerLinkActive="router-link-active">loginUsingInterceptor</a>
+          </li> -->
+          <!-- <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li> -->
+        </ul>
+        <form class="d-flex">
+          <button (click)="logout()" class="btn btn-danger me-2">logout</button>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <router-outlet></router-outlet>
+  

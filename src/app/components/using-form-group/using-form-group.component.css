@@ -1,0 +1,20 @@
+.container{
+    /* width: auto; */
+    background-color: bisque;
+    margin: auto;
+}
+table{
+    width: 100%;
+    background-color:cornflowerblue;
+}
+th,td{
+    width: auto;
+    background-color: azure;
+}
+.search{
+    width: 100%;
+    height: 70px;
+    margin-top: 10px;
+    margin-bottom: -15px;
+    /* background-color:red; */
+}

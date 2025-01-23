@@ -6,17 +6,21 @@
                     <div class="row">
                         <div class="col-6">
                             Employye List
+                            <!-- <mat-slide-toggle>Toggle me!</mat-slide-toggle> -->
                         </div>
-                        <div class="col-6 text-end">
-                            
+                        <div class="col-6 text-end">  
                             <button  class="btn btn-primary" (click)="isPanelOpen()">Create New</button>
                         </div>
                     </div>
             </div>
-            <div class="card-body">
+            <div class="card-body container">
                 <div class="row">
+                    <mat-form-field appearance="outline" class="search">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" #input>
+                      </mat-form-field>
                     <div class="col-12">
-                        <table class="table table-bordered">    
+                        <!-- <table class="table table-bordered">    
                             <thead>
                                 <tr>
                                   <th>SR no</th>
@@ -30,12 +34,11 @@
                                 @for (users of userLists; track  $index) {
                                     <tr>
                                       <td>{{$index}}</td> 
-                                      <!-- <td>{{$index +1}}</td>  -->
+                                    
                                       <td>{{users.name}}</td> 
                                       <td>{{users.username}}</td> 
                                       <td>{{users.email}}</td>
                                         <td>
-                                            <!-- <button  class="btn btn-primary viewContent">View</button> -->
                                             <button  class="btn btn-success" 
                                             [style]="{'margin-right': '10px'}" (click)="onEdit(users)">Edit</button>
                                             <button  class="btn btn-danger" (click)="onDelete(users.id)">Delete</button>
@@ -43,7 +46,56 @@
                                     </tr>
                                 }
                             </tbody>
-                        </table>
+                        </table> -->
+                        <div class="mat-elevation-z8">
+                            <!-- @for (users of userLists; track  $index) { -->
+                            <table mat-table [dataSource]="dataSource" matSort class="table table-boarderd">
+                          
+                              <!-- Position Column -->
+                              <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Sr No. </th>
+                                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                              </ng-container>
+                          
+                              <!-- Name Column -->
+                              <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                              </ng-container>
+                              
+                          
+                              <!-- Weight Column -->
+                              <ng-container matColumnDef="username">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header > Username </th>
+                                <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                              </ng-container>
+                          
+                              <!-- Symbol Column -->
+                              <ng-container matColumnDef="email">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                                <td mat-cell *matCellDef="let element">
+                                     <button class="btn btn-warning me-2" (click)="onEdit(element)">Edit</button> 
+                                     <button class="btn btn-danger" (click)="onDelete(element.id)">Delete</button>
+                                    </td>
+                               
+                              </ng-container>
+                          
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        <!-- } -->
+                          
+                            <mat-paginator [pageSizeOptions]="[7]"
+                                           showFirstLastButtons
+                                           >
+                            </mat-paginator>
+                          </div>
+                          
                     </div>
                 </div>
             </div>
@@ -70,6 +122,12 @@
                       <div class="mb-3">
                           <label for="name" class="form-label">Name:</label><br>
                           <input type="name" id="name" formControlName="name" placeholder="Enter Name" name="name">
+                          @if (userForm.get('name')?.errors?.['required'] && userForm.get('name')?.errors?.['touched']) {
+                            <p>Name is Required</p>
+                        }
+                        @if (userForm.get('name')?.errors?.['pattern']) {
+                           <p>Name can only contain letters and spaces</p>
+                        }
                           </div>
                       <div class="mb-3">
                           <label for="username" class="form-label">username:</label><br>
@@ -82,10 +140,12 @@
                     @if (isEditMode) {
                         <button  type="button" class="btn btn-warning" (click)="onUpdate()">Update</button>
                     }@else {
-                        <button  type="button" class="btn btn-primary" (click)="OnSubmit()">Submit</button>
+                        <button  type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
                     }
                      
                     </form>
               </div>
           </div>
         }
+
+

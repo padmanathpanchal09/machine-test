@@ -11,11 +11,13 @@ export class MasterService {
 
 
   private apiUrl:string = "http://localhost:3000/userList";
+  private apiUrl2:string = "http://localhost:3000/userData";
+
 
   constructor(private http: HttpClient){}
 
   getAllUser(): Observable<Post[]>{
-    return this.http.get<Post[]>(this.apiUrl);
+    return this.http.get<Post[]>(this.apiUrl) ;
   } 
 
 
@@ -30,6 +32,22 @@ export class MasterService {
 
   onDelete(id:any){
     return this.http.delete(`${this.apiUrl}/${id}`)
+  }
+// another response
+
+  getUserData(){
+    return this.http.get(this.apiUrl2);
+  }
+
+
+  onDataSubmit(userData:any){
+    return this.http.post(`${this.apiUrl2}`,userData)
+  }
+
+  deleteData(id:any){
+
+    return this.http.delete(`${this.apiUrl2}/${id}`)
+
   }
 
 

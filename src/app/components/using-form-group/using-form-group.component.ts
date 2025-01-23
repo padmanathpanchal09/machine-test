@@ -1,18 +1,38 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { MasterService } from '../../services/master.service';
 import { Post } from '../../post';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
+// import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-using-form-group',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule,
+    MatSlideToggleModule,MatTableModule, MatPaginatorModule, MatSortModule,MatInputModule,
+    MatFormFieldModule
+    
+  ],
   providers:[MasterService],
   templateUrl: './using-form-group.component.html',
   styleUrl: './using-form-group.component.css'
 })
 export class UsingFormGroupComponent {
+  displayedColumns: string[] = ['id', 'name', 'username', 'email','action'];
+  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  dataSource = new MatTableDataSource<any>;
+  @ViewChild(MatSort) sort!: MatSort;
   
   usersArray:Post[]=[];
   userLists:Post[] =[];
@@ -20,53 +40,76 @@ export class UsingFormGroupComponent {
   isEditMode:boolean = false;
   isOpen:boolean = false;
 
+ 
 
-  userForm:FormGroup = new FormGroup({
-
-    id:new FormControl(''),
-    name:new FormControl(''),
-    username:new FormControl(''),
-    email:new FormControl(''),
+_fb = inject(FormBuilder);
+  
+  constructor(private masterService:MasterService){}
+  userForm:FormGroup = this._fb.group({
+    id:[''],
+    name:['', [Validators.required,  Validators.pattern(/^[a-zA-Z\s]*$/) ]],
+    username:['',[Validators.required]],
+    email:['',[Validators.required]],
   })
 
-constructor(private masterService:MasterService){
 
-}
+      ngOnInit(){
+        
+        this.getData();
+      }
 
+      applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+      }
 
-ngOnInit(){
-
-  this.masterService.getAllUser().subscribe((res:Post[])=>{
-   this.userLists = res
-    
-  })
-}
-
+      ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
 
 getData(){
   this.masterService.getAllUser().subscribe({
     next:(res)=>{
-      this.userLists = res;
+    this.dataSource = new MatTableDataSource(res);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
 
     }
   })
 }
 
-    OnSubmit(){
+// onSubmit(){
+//   console.log(this.userForm);
+  
+// }
+
+
+
+
+    onSubmit(){
+      // debugger;
       if (this.userForm.valid) {
         let userData = this.userForm.value;
-        if (!userData.id) {
+        console.log(this.userForm);
+        console.log(userData);
+        
+        if (userData.id == null) {
             
-          userData.id = Math.random().toString();
+          userData.id = Date.now().toString();
         }
-       this.masterService.onSubmitData(userData).subscribe({
-        next:(res:Post)=>{
-          console.log(res);
-          this.getData();
-          this.userForm.reset()
-          
-        }
-       })
+            this.masterService.onSubmitData(userData).subscribe({
+              next:(res:Post)=>{
+                console.log(res);
+                this.getData();
+                this.userForm.reset()
+                
+              }
+            })
+       }
+       else{
+        alert("form invalid")
        }
     }
     

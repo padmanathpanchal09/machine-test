@@ -1,0 +1,89 @@
+
+<!-- -------------------------------------------- -->
+
+<div class="row">
+    <div [class]="!isOpen ? 'col-12' : 'col-8'">
+        <div class="card">
+            <div class="card-header bg-success">
+                <div class="row">
+                    <div class="col-6">
+                       
+                        <p class="text-white"> CRUD OPERATIONS</p>
+                    </div>
+                    @if (!isOpen) {
+                        <div class="col-6 text-end">
+                            <button class="btn btn-warning" (click)="openPanel()">Create User</button>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <table class="table table-boarderd text-center w-80">
+                            <thead>
+                                <tr class="table-info ">
+                                    <th data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tooltip on top">Sr</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>City</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of data; track $index) {
+                                <tr class="table-warning">
+                                    <td>{{$index + 1}} </td>
+                                    <td>{{item.name}} </td>
+                                    <td>{{item.age}} </td>
+                                    <td>{{item.city}} </td>
+                                   <td>
+                                    <button class="btn btn-outline-warning me-2"(click)="onEdit(item)" >Edit</button>
+                                    <button class="btn btn-outline-danger" (click)="onDelete(item.id)">Delete</button>
+                                   </td>
+                                   
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- colmun 4 start -->
+    
+    <div class="col-4">
+            @if (isOpen) {
+            <div class="card">
+                <div class="card-header bg-success">
+                    <div class="row">
+                        <div class="col-6">
+                            
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-danger" (click)="openPanel()">Close</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="" [formGroup]="userForm">
+                        <label class="form-label">Name:</label>
+                        <input type="text" class="form-control" placeholder="Enter name" formControlName="name"><br>
+                        <label class="form-label">Age:</label>
+                        <input type="number" class="form-control" placeholder="Enter Age" formControlName="age"><br>
+                        <label class="form-label">City:</label>
+                        <input type="text" class="form-control" placeholder="Enter City" formControlName="city"><br>
+                        <button type="button" class="btn btn-dark" (click)="submitData()" [disabled]="!userForm.valid">Submit</button>
+                    </form>
+                </div>
+            </div>
+        }
+        </div>
+</div>
+
+
+  
+<!-- ----------------------- -->
+

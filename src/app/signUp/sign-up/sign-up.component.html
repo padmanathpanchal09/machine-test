@@ -1,0 +1,13 @@
+<form action="" [formGroup]="createUserForm" class="form-container">
+    <label for="fullName"> Full Name</label>
+    <input type="text" placeholder="Enter a user" formControlName="fullName">
+
+    <label for="EmailId"> Email</label>
+    <input type="text" placeholder="Enter a user" formControlName="emailId">
+
+    
+    <label for="password">password</label>
+    <input type="text" placeholder="Enter password" formControlName="password">
+
+    <button (click)="onCreate()" class="btn btn-danger" [disabled]="!createUserForm.valid">Create User</button>
+  </form>

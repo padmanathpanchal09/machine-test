@@ -1,0 +1,10 @@
+<form action="" [formGroup]="userForm" class="form-container">
+    <label for="EmailId"> Email</label>
+    <input type="text" placeholder="Enter a user" formControlName="emailId">
+
+    
+    <label for="password">password</label>
+    <input type="text" placeholder="Enter password" formControlName="password">
+
+    <button (click)="onSubmit()" class="btn btn-danger" [disabled]="!userForm.valid">Submit</button>
+  </form>

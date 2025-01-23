@@ -1,0 +1,26 @@
+<form action="" [formGroup]="userForm" class="form-container">
+    <label for="name">Name</label>
+    <input type="text" placeholder="Enter a name" formControlName="name">
+
+    @if (userForm.controls.name.invalid  && (userForm.controls.name.touched || userForm.controls.name.dirty)) {
+        <!-- <p>Pls enter value</p> -->
+        @if (userForm.controls['name'].errors?.['required']) {
+            <p>Enter User Name</p>
+        }
+        @if (userForm.controls['name'].errors?.['pattern']) {
+             <p>Name should contain only letters and spaces</p>
+        }
+    }
+    
+    <label for="age">Age</label>
+    <input type="text" placeholder="Enter age" formControlName="age">
+    <!-- @if (userForm.get('age')?.errors?.['required']) {
+        <p>enter the Age</p>
+    } -->
+    
+    <label for="city">City</label>
+    <input type="text" placeholder="Enter city" formControlName="city">
+    <button (click)="onSubmit()" class="btn btn-success" [disabled]="!userForm.valid">Submit</button>
+  </form>
+
+  <p>{{data | json}} </p>
