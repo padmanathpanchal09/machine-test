@@ -7,6 +7,8 @@ import { LoginUsingInterceptorComponent } from './loginUsingInterceptor/login-us
 import { SignUpComponent } from './signUp/sign-up/sign-up.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout/layout.component';
+import { TestCodeComponent } from './testCode/test-code/test-code.component';
+import { TestCodeLoginComponent } from './testCodeLogin/test-code-login/test-code-login.component';
 
 export const routes: Routes = [
 
@@ -38,6 +40,14 @@ export const routes: Routes = [
                                     {
                                         path:'dashboard',
                                         component:DashboardComponent
+                                    },
+                                    {
+                                        path:'testCode',
+                                        component:TestCodeComponent
+                                    },
+                                    {
+                                        path:'testLogin',
+                                        component:TestCodeLoginComponent
                                     }
                     ]
                 }
